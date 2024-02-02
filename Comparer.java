@@ -136,8 +136,8 @@ public class Comparer {
       }
     }
   }
-  public String sup_adj(){
-    return sup_adj(base, neuter, nominative);
+  public String super_adj(){
+    return super_adj(base, neuter, nominative);
   }
   public static String pos_adv(String base, boolean firstsecond){
     switch (base) {
@@ -184,11 +184,12 @@ public class Comparer {
     return super_adj();
   }
   public void set_array(){
-    this.array = {
-      { this.pos_adj(), this.pos_adv() },
-      { this.comp_adj(), this.comp_adv() },
-      { this.super_adj(), this.super_adv() }
-    };
+    array[0][0] = pos_adj();
+    array[0][1] = pos_adv();
+    array[1][0] = comp_adj();
+    array[1][1] = comp_adv();
+    array[2][0] = super_adj();
+    array[2][1] = super_adv();
   }
   protected void print(){
     msg.out("Positive: " + array[0][0] + " " + array[0][1]);
