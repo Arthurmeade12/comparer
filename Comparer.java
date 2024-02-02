@@ -1,10 +1,11 @@
 package me.arthurmeade12.comparer;
-public class comparer {
+public class Comparer {
   protected boolean firstsecond = false;
   protected boolean neuter = false;
   protected String nominative;
   protected String base;
-  public comparer(String nom) {
+  public String[][] array = new String[3][2];
+  public Comparer(String nom) {
     nominative = nom;
     String droptwo = msg.drop(nom, 2);
     switch (msg.trim(nom, 2)) {
@@ -43,7 +44,7 @@ public class comparer {
       throw new IllegalArgumentException("Nominative '" + nom + "' is too short.");
     }
   }
-  private boolean special_irreg() {
+  private static boolean special_irreg(String base) {
     try {
       switch (msg.trim(base, 3)) {
       case "dic":
@@ -55,17 +56,20 @@ public class comparer {
     catch (StringIndexOutOfBoundsException c) {}
     return false;
   }
+  public static String pos_adj(String adjective) {
+    return adjective;
+  }
   public String pos_adj(){
     return nominative;
   }
-  public String comp_adj(){
+  public static String comp_adj(String base, boolean neuter) {
     String ending;
     if (neuter) {
       ending = "us";
     } else {
       ending = "or";
     }
-    if (special_irreg()) {
+    if (special_irreg(base)) {
       return base + "enti" + ending;
     }
     switch (base) {
@@ -85,14 +89,17 @@ public class comparer {
       return base + "i" + ending;
     }
   }
-  public String super_adj(){
+  public String comp_adj() {
+    return comp_adj(base, neuter);
+  }
+  public static String super_adj(String base, boolean neuter, String nominative){
     String ending;
     if (neuter) {
       ending = "um";
     } else {
       ending = "us";
     }
-    if (special_irreg()) {
+    if (special_irreg(base)) {
       return base + "entissim" + ending;
     }
     switch (base) {
@@ -129,7 +136,10 @@ public class comparer {
       }
     }
   }
-  public String pos_adv(){
+  public String sup_adj(){
+    return sup_adj(base, neuter, nominative);
+  }
+  public static String pos_adv(String base, boolean firstsecond){
     switch (base) {
     case "bon":
       return "bene";
@@ -153,38 +163,36 @@ public class comparer {
       }
     }
   }
-  public String comp_adv(){
+  public String pos_adv(){
+    return pos_adv(base, firstsecond);
+  }
+  public static String comp_adv(String base){
     switch (base) {
     case "magn":
       return "magis";
     default:
-      String comp_adj = this.comp_adj();
-      switch (msg.trim(comp_adj, 2)) {
-      case "or":
-        return msg.drop(comp_adj, 2) + "us";
-      case "us":
-        return comp_adj;
-      default:
-        throw new IllegalArgumentException("Comparitive adjective '" + comp_adj + "'must end in 'or' or 'us' to form the comparitive adverb.");
-      }
+      return comp_adj(base, true);
     }
   }
-  public String super_adv(){
-    String super_adj = this.super_adj();
-    return msg.drop(super_adj, 2) + "e";
+  public String comp_adv(){
+    return comp_adv(base);
   }
-  public String[][] get_array(){
-    String[][] array = {
+  public static String super_adv(String base, boolean neuter, String nominative){
+    return msg.drop(super_adj(base, neuter, nominative), 2) + "e";
+  }
+  public String super_adv(){
+    return super_adj();
+  }
+  public void set_array(){
+    this.array = {
       { this.pos_adj(), this.pos_adv() },
       { this.comp_adj(), this.comp_adv() },
       { this.super_adj(), this.super_adv() }
     };
-    return array;
-
   }
-  protected static void print(String[][] arr){
-    msg.out("Positive: " + arr[0][0] + " " + arr[0][1]);
-    msg.out("Comparitive: " + arr[1][0] + " " + arr[1][1]);
-    msg.out("Superlative: " + arr[2][0] + " " + arr[2][1]);
+  protected void print(){
+    msg.out("Positive: " + array[0][0] + " " + array[0][1]);
+    msg.out("Comparitive: " + array[1][0] + " " + array[1][1]);
+    msg.out("Superlative: " + array[2][0] + " " + array[2][1]);
   }
 }
