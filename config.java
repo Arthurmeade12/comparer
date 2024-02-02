@@ -9,14 +9,14 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Properties;
-public class config {
+class config {
   public static class values {
-    public static boolean debug = false;
+    protected static boolean debug = false;
     private static final byte configversion = 1;
     private static final String configfile = "comparer.properties";
     private static final String url = "https://raw.githubusercontent.com/Arthurmeade12/comparer/main/" + configfile;
   }
-  static void evalprops(){
+  protected static void evalprops(){
     FileReader configreader;
     Properties p = new Properties();
     try {
@@ -37,7 +37,7 @@ public class config {
       config.values.debug = Boolean.parseBoolean(p.getProperty("debug"));
     }
   }
-  static boolean createprops() {
+  private static boolean createprops() {
     // returns success
     msg.warn("Downloading default config at " + config.values.configfile + " in your PWD.");
     try {
