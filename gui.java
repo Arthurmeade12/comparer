@@ -1,5 +1,7 @@
 package me.arthurmeade12.comparer;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.awt.CardLayout;
 public class gui {
   public static void main() {
     // Creating instance of JFrame
@@ -16,6 +18,6 @@ public class gui {
     frame.setLayout(new CardLayout());
     // making the frame visible
     frame.setVisible(true);
-    frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 }
